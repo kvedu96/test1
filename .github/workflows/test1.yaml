@@ -14,9 +14,9 @@ env:
   status: Done
 
 jobs:
-  test:
-    name: Test1
+  build:
     runs-on: macos-latest
+
     strategy:
         matrix:
           destination: ['platform=iOS Simulator,OS=16.1,name=iPhone 14 Pro']
