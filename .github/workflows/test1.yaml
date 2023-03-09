@@ -44,7 +44,8 @@ jobs:
 
       - name: Set status
         if: ${{ failure() }}
-        echo "status=Errors" >> "$GITHUB_ENV"
+        run: |
+          echo "status=Errors" >> "$GITHUB_ENV"
 
       - name: Hello edu, i'm coming for you
         if: ${{ always() }}
