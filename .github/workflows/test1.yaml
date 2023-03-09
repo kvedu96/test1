@@ -37,11 +37,12 @@ jobs:
         run: |
           xcodebuild clean test -project testEdu1.xcodeproj -scheme testEdu1UITests -destination "${{env.destination}}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
 
-      - name: Set status
+      - name: Set score
         if: ${{ !failure() }}
         run: |
           echo "task_score=$(expr ${{env.task_score}} + 1)" >> "$GITHUB_ENV"
 
+      - name: Set status
         if: ${{ failure() }}
         run: |
           echo "status=Errors" >> "$GITHUB_ENV"
