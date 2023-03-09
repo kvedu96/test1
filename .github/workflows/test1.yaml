@@ -12,7 +12,6 @@ env:
   task_score: 0
   max_score: 1
   status: Done
-  destination: ['platform=iOS Simulator,OS=16.1,name=iPhone 14 Pro']
 
 jobs:
   build:
@@ -35,7 +34,7 @@ jobs:
       - name: Test
         working-directory: student_work
         run: |
-          xcodebuild clean test -project testEdu1.xcodeproj -scheme testEdu1UITests -destination "${{env.destination}}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+          xcodebuild clean test -project testEdu1.xcodeproj -scheme testEdu1UITests -destination 'platform=iOS Simulator,OS=16.1,name=iPhone 14 Pro' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
 
       - name: Set score
         if: ${{ !failure() }}
