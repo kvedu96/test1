@@ -9,18 +9,15 @@ env:
   github_token: ${{github.event.client_payload.github_token}}
   task_id: ${{github.event.client_payload.task_id}}
   adapter_url: ${{github.event.client_payload.adapter_url}}
-  task_score: 1
+  task_score: 0
   max_score: 1
   status: Done
+  destination: ['platform=iOS Simulator,OS=16.1,name=iPhone 14 Pro']
 
 jobs:
   build:
     name: Test 1
     runs-on: macos-latest
-
-    strategy:
-        matrix:
-          destination: ['platform=iOS Simulator,OS=16.1,name=iPhone 14 Pro']
 
     steps:
       - name: Checkout
@@ -38,9 +35,13 @@ jobs:
       - name: Test
         working-directory: student_work
         run: |
-          xcodebuild clean test -project testEdu1.xcodeproj -scheme testEdu1UITests -destination "${destination}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+          xcodebuild clean test -project testEdu1.xcodeproj -scheme testEdu1UITests -destination "${{env.destination}}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
 
       - name: Set status
+        if: ${{ !failure() }}
+        run: |
+          echo "task_score=$(expr ${{env.task_score}} + 1)" >> "$GITHUB_ENV"
+
         if: ${{ failure() }}
         run: |
           echo "status=Errors" >> "$GITHUB_ENV"
